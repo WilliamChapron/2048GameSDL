@@ -7,6 +7,10 @@ GameObject::GameObject() : positionI_i(0), positionJ_i(0), positionX_i(0), posit
 
 }
 
+GameObject::GameObject(int positionX, int positionY, std::string imagePath) : positionX_i(positionX), positionY_i(positionY), imagePath_s(imagePath) // Create a triangle 
+{
+}
+
 void GameObject::Update(int i, int j, int value)
 {
 
