@@ -5,6 +5,7 @@
 #include <random>
 #include <string>
 
+
 // Constructor -------------
 
 
@@ -13,7 +14,7 @@ Game::Game() : size_i(4)
     initializeBoardBoxs();
 }
 
-Game::Game(int boardSize) : size_i(boardSize), score_i(0), totalScore_i(0)
+Game::Game(int boardSize, DisplayManager& display) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayInstance(display)
 {
     initializeGame();
     std::cout << "Game Start" << std::endl;
@@ -298,7 +299,7 @@ void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBox
     boardBoxs[currentBoxI][currentBoxJ].Update(currentBoxI, currentBoxJ, 0);
     
 
-    boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 5);
+    boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 2);
 
     // Update Image path 
     boardBoxs[nextBoxI][nextBoxJ].Update(nextBoxI, nextBoxJ, 0);
@@ -416,3 +417,5 @@ bool Game::checkIsDouble(int i, int j, int iUser, int jUser)
     }
     return false;
 }
+
+

@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include "Box.h"
+#include "DisplayManager.h"
+
 #include <iostream>
 
 
@@ -23,7 +25,7 @@ class Game
 public:
 
     Game();
-    Game(int boardSize);
+    Game(int boardSize, DisplayManager& display);
 
     // Get 
     int getSize();
@@ -69,6 +71,8 @@ private:
     std::string moveStateMessage_s = "";
     std::vector<std::vector<int>> boardNumbers;
     std::vector<std::vector<Box>> boardBoxs;
+
+    DisplayManager DisplayInstance;
 
     // Check 
 
