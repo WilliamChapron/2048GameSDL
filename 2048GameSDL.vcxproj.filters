@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -13,31 +9,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{ce4e26c3-3a81-4144-842d-1b284ea29890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private">
+      <UniqueIdentifier>{a4e3a2d2-7933-42ac-945e-6c72a361ea61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="IntegrationTest.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayManager.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Box.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
     <ClCompile Include="Display.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="Class.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="DisplayManager.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Game.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="IntegrationTest.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -45,30 +47,6 @@
     <None Include="SDL2.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="IntegrationTest.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Display.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Class.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="SDL2\include\begin_code.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -306,5 +284,64 @@
     <ClInclude Include="SDL2_image\include\SDL_image.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Display.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayManager.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegrationTest.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\2.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\4.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\8.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\16.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\32.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\64.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\128.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\256.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\512.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\1024.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\2048.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -132,9 +132,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="DisplayManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -147,10 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
-    <ClInclude Include="Class.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="DisplayManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IntegrationTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Player.h" />
@@ -233,6 +233,19 @@
     <ClInclude Include="SDL2\include\SDL_video.h" />
     <ClInclude Include="SDL2\include\SDL_vulkan.h" />
     <ClInclude Include="SDL2_image\include\SDL_image.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\1024.bmp" />
+    <Image Include="img\128.bmp" />
+    <Image Include="img\16.bmp" />
+    <Image Include="img\2.bmp" />
+    <Image Include="img\2048.bmp" />
+    <Image Include="img\256.bmp" />
+    <Image Include="img\32.bmp" />
+    <Image Include="img\4.bmp" />
+    <Image Include="img\512.bmp" />
+    <Image Include="img\64.bmp" />
+    <Image Include="img\8.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,11 +1,12 @@
-﻿#ifndef BOX_H
-#define BOX_H
+﻿#pragma once
 
 #include <vector>
 
+#include "GameObject.h"
+
 using namespace std;
 
-class Box
+class Box : public GameObject
 {
 
 public:
@@ -23,4 +24,3 @@ private:
     std::vector<int> position_v;
 };
 
-#endif // BOX_H

@@ -1,13 +1,12 @@
 ﻿#ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include <iostream>
-#include <vector>
 #include "Box.h"
+
+class vector;
 
 class Display
 {
-
 public:
     void displayNumber(int number);
 

@@ -56,6 +56,7 @@ bool Game::checkBoardFull()
             }
         }
     }
+    // if full true check if double still possible
     return full;
 }
 
@@ -95,9 +96,12 @@ void Game::initializeBoardBoxs()
     boardNumbers.resize(rows, std::vector<int>(cols, 0));
     boardBoxs.resize(rows, std::vector<Box>(cols));
 
+
+
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             createBox(i, j, 0); // Initialize each box with a value 0 
+            boardBoxs[i][j].Update(i, j, 0);
             //Box currentBox = boardBoxs[i][j];
             //int boxValue = currentBox.getValue();
         }
@@ -288,10 +292,16 @@ void Game::DownRightCase(int moveEvent)
 
 void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBoxJ)
 {
-    boardBoxs[currentBoxI][currentBoxJ].setValue(0);
     boardNumbers[currentBoxI][currentBoxJ] = 0;
+    boardBoxs[currentBoxI][currentBoxJ].setValue(0);
+    // Update Image path 
+    boardBoxs[currentBoxI][currentBoxJ].Update(currentBoxI, currentBoxJ, 0);
+    
 
-    boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 2);
+    boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 5);
+
+    // Update Image path 
+    boardBoxs[nextBoxI][nextBoxJ].Update(nextBoxI, nextBoxJ, 0);
 }
 
 void Game::setTotalScore(int val)
@@ -314,10 +324,16 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
             {
                 // Set future position
                 boardBoxs[i + iUser][j + jUser].setValue(boardBoxs[i][j].getValue());
+                // Update Image path 
+                boardBoxs[i + iUser][j + jUser].Update(i + iUser, j + jUser, 0);
+
                 boardNumbers[i + iUser][j + jUser] = 1;
 
                 // Set old position
                 boardBoxs[i][j].setValue(0);
+
+                // Update Image path 
+                boardBoxs[i][j].Update(i, j, 0);
                 setBoardNumbers(i, j, 0);
                 moveState_i = 1;
                 checkEvents(i + iUser, j + jUser, iUser, jUser);

@@ -1,8 +1,11 @@
 ﻿#include "Display.h"
 
+#include "Box.h"
+
 #include <iostream>
 #include <iomanip>
-#include "Box.h"
+
+#include <vector>
 
 void Display::displayNumber(int number) {
     if (number == 0) {

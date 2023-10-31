@@ -1,16 +1,17 @@
 ﻿
 #include "Box.h"
+#include "GameObject.h"
 #include <iostream>
 
 // Constructor------------------------
 
-Box::Box()
+Box::Box() : GameObject()
 {
     value_i = 0;
     position_v = { 0,0 };
 }
 
-Box::Box(int line, int column, int playerScore, int value)
+Box::Box(int line, int column, int playerScore, int value) : GameObject()
 {
     position_v = { line, column };
 
