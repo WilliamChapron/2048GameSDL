@@ -6,21 +6,10 @@
 #include "Game.h"
 #include "Box.h"
 
-class IntegrationTest {
+class IntegrationTest
+{
 public:
     IntegrationTest();
-    void launchFunctions();
-    void placeBox(int i, int j, int value);
-    void removeBox(int i, int j, int value);
-
-
-    void fusionTest();
-    void collideBoxTest();
-    void collideBorderTest();
-
-    bool comparison();
-
-
 
 
 private:
@@ -29,9 +18,19 @@ private:
     std::vector<std::vector<int>> boardConfigStart;
     std::vector<std::vector<int>> boardConfigFinal;
 
-
-
     Game GameInstance;
+
+    void placeBox(int i, int j, int value);
+    void removeBox(int i, int j, int value);
+    void emptyBoards();
+    bool comparison();
+
+
+    void launchFunctions();
+
+    void fusionTest();
+    void collideBoxTest();
+    void collideBorderTest();
 };
 
 #endif // INTEGRATIONTEST_H

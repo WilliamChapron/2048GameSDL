@@ -72,7 +72,7 @@ private:
     std::vector<std::vector<int>> boardNumbers;
     std::vector<std::vector<Box>> boardBoxs;
 
-    DisplayManager DisplayInstance;
+    DisplayManager& DisplayInstance;
 
     // Check 
 

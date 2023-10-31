@@ -89,8 +89,10 @@ int main(int argc, char* argv[])
     //std::vector<std::vector<Box>>& boardBoxs_r = GameInstance.getBoardBoxs();
     // Display here fist board
 
-    while (!quit) {
-        if (SDL_PollEvent(&e) != 0) {
+    while (!quit) 
+    {
+        if (SDL_PollEvent(&e) != 0) 
+        {
             int moveEvent = PlayerInstance.catchKeys(e);
             cout << moveEvent << std::endl;
             cout << "" << std::endl;

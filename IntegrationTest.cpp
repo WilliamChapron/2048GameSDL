@@ -23,11 +23,10 @@ void IntegrationTest::launchFunctions()
 
 void IntegrationTest::fusionTest()
 {
+    // Init Boards for comparison ----------------------------------
 
     int size = GameInstance.getSize();
 
-
-    // Init Start Board
     boardConfigStart.resize(size, std::vector<int>(size, 0));
     boardConfigStart[1][1] = 16;
     boardConfigStart[1][2] = 16;
@@ -37,7 +36,6 @@ void IntegrationTest::fusionTest()
 
     std::vector<std::vector<Box>>& boardNumbers_r = GameInstance.getBoardBoxs();
 
-
     boardNumbers_r[1][1].setValue(16);
     boardNumbers_r[1][2].setValue(16);
 
@@ -46,18 +44,10 @@ void IntegrationTest::fusionTest()
     boardConfigFinal[1][3] = 32;
 
 
-    // Fusion Testing
+    // Fusion and Comparison of boards ---------------------------
     GameInstance.DownRightCase(4);
 
-
-
-    std::cout << "" << std::endl;
-
-
-
-    std::cout << "" << std::endl;
     // WHEN TEST WORKING, THERE ARE THE MOVE AND THE FUSION EFFECTIVE IN SAME TIME, so the box change place and double work at the same time
-
 
     //  Comparison
     bool result = comparison();
@@ -71,27 +61,17 @@ void IntegrationTest::fusionTest()
         std::cout << "Le test unitaire a echoue" << std::endl;
     }
 
-
-
-    for (int i = 0; i < boardNumbers_r.size(); ++i)
-    {
-        for (int j = 0; j < boardNumbers_r[i].size(); ++j)
-        {
-            removeBox(i, j, 0);
-            boardConfigStart[i][j] = 0;
-            boardConfigFinal[i][j] = 0;
-        }
-    }
-
-
+    emptyBoards();
 }
 
-//------------------------------------------------------------------------------------------------
+//--------------------------------Border Colision Test----------------------------------------------
 
 void IntegrationTest::collideBorderTest()
 {
+    // Init Boards for comparison ----------------------------------
 
     int size = GameInstance.getSize();
+
     boardConfigStart.resize(size, std::vector<int>(size, 0));
     boardConfigStart[0][0] = 2;
     boardConfigStart[2][1] = 2;
@@ -104,20 +84,13 @@ void IntegrationTest::collideBorderTest()
     boardConfigFinal[0][0] = 2;
     boardConfigFinal[2][0] = 2;
 
-
-    // Collide Border Testing
+    // Movement and Comparison of boards ---------------------------
     GameInstance.UpLeftCase(3);
-
-    std::vector<std::vector<Box>>& boardNumbers_r = GameInstance.getBoardBoxs();
-
-
-
-
 
     // Comparison
     bool result = comparison();
     std::string message = GameInstance.getMessage();
-
+    
 
     if (result && message.find("border collision") != std::string::npos)
     {
@@ -128,24 +101,17 @@ void IntegrationTest::collideBorderTest()
         std::cout << "Le test unitaire a echoue" << std::endl;
     }
 
-
-
-
-    for (int i = 0; i < boardNumbers_r.size(); ++i)
-    {
-        for (int j = 0; j < boardNumbers_r[i].size(); ++j)
-        {
-            removeBox(i, j, 0);
-            boardConfigStart[i][j] = 0;
-            boardConfigFinal[i][j] = 0;
-        }
-    }
+    emptyBoards();
 }
+
+//-----------------------------------Box Colision Test-----------------------------------------------------
 
 void IntegrationTest::collideBoxTest()
 {
+    // Init Boards for comparison ----------------------------------
 
     int size = GameInstance.getSize();
+
     boardConfigStart.resize(size, std::vector<int>(size, 0));
     boardConfigStart[1][0] = 16;
     boardConfigStart[1][3] = 2;
@@ -164,26 +130,8 @@ void IntegrationTest::collideBoxTest()
     boardConfigFinal[1][2] = 16;
 
 
-    // Collide Box Testing
+    // Movement and Comparison of boards ---------------------------
     GameInstance.DownRightCase(4);
-
-    /*for (int i = 0; i < boardNumbers_r.size(); ++i) {
-        for (int j = 0; j < boardNumbers_r[i].size(); ++j) {
-            std::cout << boardNumbers_r[i][j].getValue() << std::endl;
-        }
-    }
-
-    std::cout << "" << std::endl;
-
-    for (int i = 0; i < boardNumbers_r.size(); ++i) {
-        for (int j = 0; j < boardNumbers_r[i].size(); ++j) {
-            std::cout << boardConfigFinal[i][j] << std::endl;
-        }
-    }
-    std::cout << "" << std::endl;*/
-
-
-
 
     //comparaison
     bool result = comparison();
@@ -199,15 +147,14 @@ void IntegrationTest::collideBoxTest()
         std::cout << "Le test unitaire a echoue" << std::endl;
     }
 
-    for (int i = 0; i < boardNumbers_r.size(); ++i) {
-        for (int j = 0; j < boardNumbers_r[i].size(); ++j) {
-            removeBox(i, j, 0);
-            boardConfigStart[i][j] = 0;
-            boardConfigFinal[i][j] = 0;
-        }
-    }
-
+    emptyBoards();
 }
+
+
+
+// Tools
+
+
 
 bool IntegrationTest::comparison()
 {
@@ -230,15 +177,32 @@ bool IntegrationTest::comparison()
 }
 
 
-
-
-void IntegrationTest::placeBox(int i, int j, int value) {
+void IntegrationTest::placeBox(int i, int j, int value) 
+{
     GameInstance.createBox(i, j, value);
     GameInstance.setBoardNumbers(i, j, 1);
 }
 
-void IntegrationTest::removeBox(int i, int j, int value) {
+
+void IntegrationTest::removeBox(int i, int j, int value) 
+{
     std::vector<std::vector<Box>>& boardBoxs_r = GameInstance.getBoardBoxs();
     boardBoxs_r[i][j].setValue(value);
     GameInstance.setBoardNumbers(i, j, 0);
+}
+
+
+void IntegrationTest::emptyBoards()
+{
+    int size = GameInstance.getSize();
+
+    for (int i = 0; i < size; ++i) 
+    {
+        for (int j = 0; j < size; ++j) 
+        {
+            removeBox(i, j, 0);
+            boardConfigStart[i][j] = 0;
+            boardConfigFinal[i][j] = 0;
+        }
+    }
 }
