@@ -25,7 +25,7 @@ class Game
 public:
 
     Game();
-    Game(int boardSize, DisplayManager& display);
+    Game(int boardSize);
 
     // Get 
     int getSize();
@@ -72,11 +72,9 @@ private:
     std::vector<std::vector<int>> boardNumbers;
     std::vector<std::vector<Box>> boardBoxs;
 
-    DisplayManager& DisplayInstance;
-
     // Check 
 
-
+    DisplayManager DisplayManagerInstance;
 
     //Tool
 

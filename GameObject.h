@@ -7,17 +7,17 @@
 class GameObject 
 {
 public:
-    GameObject(); // Base construct
+    //GameObject(); // Base construct
     GameObject(int positionX, int positionY, std::string imagePath); // Create a triangle
     void Update(int i, int j, int value);
-    void setImagePath(int value);
-    void setPositions(int i, int j);
+    //void setImagePath(int value);
+    //void setPositions(int i, int j);
     
 
 private:
-    // Position Board
-    int positionI_i; 
-    int positionJ_i;
+    //// Position Board
+    //int positionI_i; 
+    //int positionJ_i;
 
 
     // Position Display

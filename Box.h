@@ -14,10 +14,12 @@ public:
     Box(int line, int column, int playerScore, int value_i);
 
     int getValue();
+    std::vector<int> getPosition();
+
     void setValue(int value);
     int generateValue(int playerScore);
 
-    std::vector<int> getPosition();
+
 
 private:
     int value_i;

@@ -310,9 +310,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="img\2.bmp">
-      <Filter>Fichiers de ressources</Filter>
-    </Image>
     <Image Include="img\4.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>
@@ -341,6 +338,9 @@
       <Filter>Fichiers de ressources</Filter>
     </Image>
     <Image Include="img\2048.bmp">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
+    <Image Include="img\2.bmp">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>

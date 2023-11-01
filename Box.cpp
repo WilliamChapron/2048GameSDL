@@ -5,13 +5,13 @@
 
 // Constructor------------------------
 
-Box::Box() : GameObject()
+Box::Box() : GameObject(0, 0, "")
 {
     value_i = 0;
     position_v = { 0,0 };
 }
 
-Box::Box(int line, int column, int playerScore, int value) : GameObject()
+Box::Box(int line, int column, int playerScore, int value) : GameObject(0, 0, "")
 {
     position_v = { line, column };
 

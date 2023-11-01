@@ -5,20 +5,72 @@
 #include <random>
 #include <string>
 
+#include "DisplayManager.h"
 
 // Constructor -------------
 
 
-Game::Game() : size_i(4)
-{
+Game::Game() : size_i(4) {
     initializeBoardBoxs();
 }
 
-Game::Game(int boardSize, DisplayManager& display) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayInstance(display)
-{
+Game::Game(int boardSize) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayManagerInstance("2048", 800, 800, 4) {
     initializeGame();
     std::cout << "Game Start" << std::endl;
 }
+
+
+// Init-----------------------
+
+void Game::initializeGame()
+{
+    initializeBoard();
+}
+
+void Game::initializeBoardBoxs()
+{
+    int rows = size_i;
+    int cols = size_i;
+
+    boardNumbers.resize(rows, std::vector<int>(cols, 0));
+    boardBoxs.resize(rows, std::vector<Box>(cols));
+
+
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            createBox(i, j, 0); // Initialize each box with a value 0 
+            boardBoxs[i][j].Update(i, j, 0);
+            //Box currentBox = boardBoxs[i][j];
+            //int boxValue = currentBox.getValue();
+        }
+    }
+}
+
+void Game::initializeBoard()
+{
+    initializeBoardBoxs();
+
+    // Init two boxes to start the game
+    for (int i = 0; i < 2; ++i)
+    {
+        int randomI = generateRandomNumber(0, size_i - 1);
+        int randomJ = generateRandomNumber(0, size_i - 1);
+
+        createBox(randomI, randomJ, 1);
+        setBoardNumbers(randomI, randomJ, 1);
+
+        DisplayManagerInstance.setOneCase(randomI, randomJ, 2);
+    }
+
+}
+
+void Game::createBox(int i, int j, int value)
+{
+    boardBoxs[i][j] = Box(i, j, score_i, value);
+}
+
+
 
 
 // Check End ---------------
@@ -82,53 +134,6 @@ bool Game::checkEnd()
 
 
 
-// Init-----------------------
-
-void Game::initializeGame()
-{
-    initializeBoard();
-}
-
-void Game::initializeBoardBoxs()
-{
-    int rows = size_i;
-    int cols = size_i;
-
-    boardNumbers.resize(rows, std::vector<int>(cols, 0));
-    boardBoxs.resize(rows, std::vector<Box>(cols));
-
-
-
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
-            createBox(i, j, 0); // Initialize each box with a value 0 
-            boardBoxs[i][j].Update(i, j, 0);
-            //Box currentBox = boardBoxs[i][j];
-            //int boxValue = currentBox.getValue();
-        }
-    }
-}
-
-void Game::initializeBoard()
-{
-    initializeBoardBoxs();
-
-    // Init two boxes to start the game
-    for (int i = 0; i < 2; ++i)
-    {
-        int randomI = generateRandomNumber(0, size_i - 1);
-        int randomJ = generateRandomNumber(0, size_i - 1);
-
-        createBox(randomI, randomJ, 1);
-        setBoardNumbers(randomI, randomJ, 1);
-    }
-
-}
-
-void Game::createBox(int i, int j, int value)
-{
-    boardBoxs[i][j] = Box(i, j, score_i, value);
-}
 
 
 
@@ -293,16 +298,22 @@ void Game::DownRightCase(int moveEvent)
 
 void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBoxJ)
 {
-    boardNumbers[currentBoxI][currentBoxJ] = 0;
+
     boardBoxs[currentBoxI][currentBoxJ].setValue(0);
-    // Update Image path 
-    boardBoxs[currentBoxI][currentBoxJ].Update(currentBoxI, currentBoxJ, 0);
+    boardNumbers[currentBoxI][currentBoxJ] = 0;
+
+    // Set one case FOR display refresh
+    DisplayManagerInstance.removeOneCase(currentBoxI, currentBoxJ);
     
 
     boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 2);
+    boardNumbers[nextBoxI][nextBoxJ] = 1; // Facultatif
 
-    // Update Image path 
-    boardBoxs[nextBoxI][nextBoxJ].Update(nextBoxI, nextBoxJ, 0);
+    // Set one case FOR display refresh
+    DisplayManagerInstance.setOneCase(nextBoxI, nextBoxJ, boardBoxs[nextBoxI][nextBoxJ].getValue());
+
+
+
 }
 
 void Game::setTotalScore(int val)
@@ -325,17 +336,23 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
             {
                 // Set future position
                 boardBoxs[i + iUser][j + jUser].setValue(boardBoxs[i][j].getValue());
+                boardNumbers[i + iUser][j + jUser] = 1;
                 // Update Image path 
                 boardBoxs[i + iUser][j + jUser].Update(i + iUser, j + jUser, 0);
 
-                boardNumbers[i + iUser][j + jUser] = 1;
+                
 
                 // Set old position
                 boardBoxs[i][j].setValue(0);
-
-                // Update Image path 
-                boardBoxs[i][j].Update(i, j, 0);
                 setBoardNumbers(i, j, 0);
+                // Update Image path 
+                /*boardBoxs[i][j].Update(i, j, 0);*/
+                
+                // Set one case FOR display refresh
+                DisplayManagerInstance.removeOneCase(i, j);
+                DisplayManagerInstance.setOneCase(i + iUser, j + jUser, boardBoxs[i + iUser][j + jUser].getValue());
+
+
                 moveState_i = 1;
                 checkEvents(i + iUser, j + jUser, iUser, jUser);
                 moveStateMessage_s += "no box collision/";
@@ -350,6 +367,10 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                     moveState_i = 1;
                     //std::cout << "double !!!" << std::endl;
                     doubleBox(i, j, i + iUser, j + jUser);
+
+
+
+
                     setTotalScore(boardBoxs[i + iUser][j + jUser].getValue());
                     actualizeMaxScore(i + iUser, j + jUser);
                     moveStateMessage_s += "box collision and fusion/";

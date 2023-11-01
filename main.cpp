@@ -77,13 +77,14 @@ using namespace std;
 
 int main(int argc, char* argv[]) 
 {
-
-    DisplayManager display("2048", 800, 800, 4);
+    Game GameInstance(4);
+  
+    
 
     bool quit = false;
     SDL_Event e;
     Player PlayerInstance;
-    Game GameInstance(4, display);
+    
 
     //std::vector<std::vector<int>>& boardNumbers_r = GameInstance.getBoardNumbers(); //grid that shows the existence of boxes (1 or 0)
     //std::vector<std::vector<Box>>& boardBoxs_r = GameInstance.getBoardBoxs();
@@ -94,8 +95,8 @@ int main(int argc, char* argv[])
         if (SDL_PollEvent(&e) != 0) 
         {
             int moveEvent = PlayerInstance.catchKeys(e);
-            cout << moveEvent << std::endl;
-            cout << "" << std::endl;
+            /*cout << moveEvent << std::endl;
+            cout << "" << std::endl;*/
             if (moveEvent != 0)
             {
                 GameInstance.move(moveEvent);

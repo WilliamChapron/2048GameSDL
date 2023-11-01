@@ -2,25 +2,37 @@
 
 #include <SDL.h>
 #include <string>
+#include <vector>
 
 class DisplayManager 
 {
 public:
+    DisplayManager();
     DisplayManager(const char* title, int width, int height, int boardSize);
     ~DisplayManager();
+
+
+    std::string getImagePath(int value);
+    std::vector<int> getPositions(int i, int j);
 
     void clear();
     void present();
 
-    void initializeBoard(int width, int height, int boardSize);
-    void setOneCase(int indexI, int indexJ, std::string imagePath);
+    void initializeBoard();
+
+    void setOneCase(int indexI, int indexJ, int value);
+    void removeOneCase(int indexI, int indexJ);
 
     SDL_Renderer* getRenderer();
 
 private:
     SDL_Window* window;
     SDL_Renderer* renderer;
+    std::vector<std::vector<SDL_Rect>> rectangles;
 
-    int cellSize;
-    int space;
+    int cellSize_i;
+    int space_i;
+    int width_i;
+    int height_i;
+    int boardSize_i;
 };
