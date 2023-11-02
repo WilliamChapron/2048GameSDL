@@ -100,9 +100,21 @@ int main(int argc, char* argv[])
             if (moveEvent != 0)
             {
                 GameInstance.move(moveEvent);
+
+                GameInstance.DisplayManagerInstance.eraseText(48, GameInstance.DisplayManagerInstance.getWidth(), GameInstance.DisplayManagerInstance.getHeight(), GameInstance.DisplayManagerInstance.getBoardSize());
+                GameInstance.DisplayManagerInstance.displayText(48, GameInstance.DisplayManagerInstance.getWidth(), GameInstance.DisplayManagerInstance.getHeight(), GameInstance.DisplayManagerInstance.getBoardSize(), GameInstance.getScore(), GameInstance.getTotalScore());
                 //Refresh Display
                 if (GameInstance.checkEnd())
                 {
+                    GameInstance.DisplayManagerInstance.eraseText(48, GameInstance.DisplayManagerInstance.getWidth(), GameInstance.DisplayManagerInstance.getHeight(), GameInstance.DisplayManagerInstance.getBoardSize());
+                    if (GameInstance.checkBoardFull())
+                    {
+                        GameInstance.DisplayManagerInstance.displayLoseText(24, GameInstance.DisplayManagerInstance.getWidth(), GameInstance.DisplayManagerInstance.getHeight(), GameInstance.DisplayManagerInstance.getBoardSize(), GameInstance.getScore(), GameInstance.getTotalScore());
+                    }
+                    if (GameInstance.check2048Win())
+                    {
+                        GameInstance.DisplayManagerInstance.displayWinText(24, GameInstance.DisplayManagerInstance.getWidth(), GameInstance.DisplayManagerInstance.getHeight(), GameInstance.DisplayManagerInstance.getBoardSize(), GameInstance.getScore(), GameInstance.getTotalScore());
+                    }
                     cout << "Fin de partie." << endl;
                     /*break;*/
                 }

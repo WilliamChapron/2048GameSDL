@@ -14,7 +14,7 @@ DisplayManager::DisplayManager()
 
 }
 
-DisplayManager::DisplayManager(const char* title, int width, int height, int boardSize) : window(nullptr), renderer(nullptr), cellSize_i(0), space_i(0), width_i(width), height_i(height), boardSize_i(boardSize)
+DisplayManager::DisplayManager(const char* title, int width, int height, int boardSize, int score, int totalScore) : window(nullptr), renderer(nullptr), cellSize_i(0), space_i(0), width_i(width), height_i(height), boardSize_i(boardSize)
 {
     // Initialiser SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -65,6 +65,21 @@ DisplayManager::~DisplayManager()
 }
 
 
+int DisplayManager::getWidth()
+{
+    return width_i;
+}
+
+int DisplayManager::getHeight()
+{
+    return height_i;
+}
+
+int DisplayManager::getBoardSize()
+{
+    return boardSize_i;
+}
+
 SDL_Renderer* DisplayManager::getRenderer()
 {
     return renderer;
@@ -112,46 +127,176 @@ void DisplayManager::initializeBoard()
     present();
 }
 
-//void DisplayManager::displayText(int width, int height)
-//{
-//	// std::string text = "My score :";
-//    // int x = space_i + boardSize * (space_i + cellSize_i) + width/50;
-//    // int y = height / 2;
-//
-//	// for (char c : text) 
-//    // {
-//	// 	// Charger la texture du caractère c
-//	// 	SDL_Texture* charTexture = loadCharTexture(c); 
-//
-//	// 	// Afficher la texture du caractère
-//	// 	SDL_Rect charRect = { x, y, 10, 10 };
-//	// 	SDL_RenderCopy(renderer, charTexture, nullptr, &charRect);
-//
-//	// 	// Déplacez x pour le caractère suivant
-//	// 	x += 12; 
-//	// }
-//
-//	TTF_Font* font = TTF_OpenFont("path_to_your_font_file.ttf", 12); 
-//	if (!font)
-//	{
-//		std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
-//		return;
-//	}
-//
-//	int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
-//	int y = height / 2;
-//	std::string text = "My Score : TEST"
-//
-//	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-//	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-//
-//	SDL_Rect textRect = { x, y, textSurface->w, textSurface->h };
-//	SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
-//
-//	SDL_FreeSurface(textSurface);
-//	SDL_DestroyTexture(textTexture);
-//	TTF_CloseFont(font);
-//}
+
+void DisplayManager::displayText(int textSize, int width, int height, int boardSize, int score, int totalScore)
+{
+
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        std::cerr << "Impossible d'initialiser SDL : " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        std::cerr << "Impossible d'initialiser SDL_ttf : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    TTF_Font* font = TTF_OpenFont("./leadcoat.ttf", textSize);
+    if (!font)
+    {
+        std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+    int y = height / 2;
+
+    std::string text1 = "My score : " + std::to_string(totalScore);
+    std::string text2 = "My highest score : " + std::to_string(score);
+
+    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Surface* textSurface1 = TTF_RenderText_Solid(font, text1.c_str(), textColor);
+    SDL_Texture* textTexture1 = SDL_CreateTextureFromSurface(renderer, textSurface1);
+
+    SDL_Surface* textSurface2 = TTF_RenderText_Solid(font, text2.c_str(), textColor);
+    SDL_Texture* textTexture2 = SDL_CreateTextureFromSurface(renderer, textSurface2);
+
+    SDL_Rect textRect1 = { x, y, textSurface1->w, textSurface1->h };
+    SDL_Rect textRect2 = { x, y + textSurface1->h + 10, textSurface2->w, textSurface2->h };
+
+    SDL_RenderCopy(renderer, textTexture1, NULL, &textRect1);
+    SDL_RenderCopy(renderer, textTexture2, NULL, &textRect2);
+
+    SDL_FreeSurface(textSurface1);
+    SDL_FreeSurface(textSurface2); // Libération des surfaces
+    SDL_DestroyTexture(textTexture1);
+    SDL_DestroyTexture(textTexture2); // Libération des textures
+
+    TTF_CloseFont(font);
+
+    present();
+}
+
+
+void DisplayManager::eraseText(int textSize, int width, int height, int boardSize)
+{
+    int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+    int y = height / 2;
+
+    SDL_Rect eraseRect = { x, y, width, textSize * 3 }; // Zone où le texte a été affiché
+
+    SDL_SetRenderDrawColor(renderer, 200, 200, 175, 255); // Couleur de fond pour effacer le texte
+    SDL_RenderFillRect(renderer, &eraseRect); // Remplir la zone avec la couleur de fond
+
+    present();
+}
+
+
+void DisplayManager::displayLoseText(int textSize, int width, int height, int boardSize, int score, int totalScore)
+{
+
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        std::cerr << "Impossible d'initialiser SDL : " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        std::cerr << "Impossible d'initialiser SDL_ttf : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    TTF_Font* font = TTF_OpenFont("./leadcoat.ttf", textSize);
+    if (!font)
+    {
+        std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+    int y = height / 2;
+
+    std::string text1 = "Fin de la partie, vous avez perdu, la grille est pleine ";
+    std::string text2 = "Votre score final est : " + std::to_string(totalScore) + " , et votre score maximal : " + std::to_string(score);
+
+    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Surface* textSurface1 = TTF_RenderText_Solid(font, text1.c_str(), textColor);
+    SDL_Texture* textTexture1 = SDL_CreateTextureFromSurface(renderer, textSurface1);
+
+    SDL_Surface* textSurface2 = TTF_RenderText_Solid(font, text2.c_str(), textColor);
+    SDL_Texture* textTexture2 = SDL_CreateTextureFromSurface(renderer, textSurface2);
+
+    SDL_Rect textRect1 = { x, y, textSurface1->w, textSurface1->h };
+    SDL_Rect textRect2 = { x, y + textSurface1->h + 10, textSurface2->w, textSurface2->h };
+
+    SDL_RenderCopy(renderer, textTexture1, NULL, &textRect1);
+    SDL_RenderCopy(renderer, textTexture2, NULL, &textRect2);
+
+    SDL_FreeSurface(textSurface1);
+    SDL_FreeSurface(textSurface2); // Libération des surfaces
+    SDL_DestroyTexture(textTexture1);
+    SDL_DestroyTexture(textTexture2); // Libération des textures
+
+    TTF_CloseFont(font);
+
+    present();
+}
+
+
+void DisplayManager::displayWinText(int textSize, int width, int height, int boardSize, int score, int totalScore)
+{
+
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    {
+        std::cerr << "Impossible d'initialiser SDL : " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        std::cerr << "Impossible d'initialiser SDL_ttf : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    TTF_Font* font = TTF_OpenFont("./leadcoat.ttf", textSize);
+    if (!font)
+    {
+        std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+    int y = height / 2;
+
+    std::string text1 = "Fin de la partie, vous avez gagne !!!! ";
+    std::string text2 = "FELICITATIONS, votre score final est : " + std::to_string(totalScore);
+
+    SDL_Color textColor = { 0, 0, 0 };
+    SDL_Surface* textSurface1 = TTF_RenderText_Solid(font, text1.c_str(), textColor);
+    SDL_Texture* textTexture1 = SDL_CreateTextureFromSurface(renderer, textSurface1);
+
+    SDL_Surface* textSurface2 = TTF_RenderText_Solid(font, text2.c_str(), textColor);
+    SDL_Texture* textTexture2 = SDL_CreateTextureFromSurface(renderer, textSurface2);
+
+    SDL_Rect textRect1 = { x, y, textSurface1->w, textSurface1->h };
+    SDL_Rect textRect2 = { x, y + textSurface1->h + 10, textSurface2->w, textSurface2->h };
+
+    SDL_RenderCopy(renderer, textTexture1, NULL, &textRect1);
+    SDL_RenderCopy(renderer, textTexture2, NULL, &textRect2);
+
+    SDL_FreeSurface(textSurface1);
+    SDL_FreeSurface(textSurface2); // Libération des surfaces
+    SDL_DestroyTexture(textTexture1);
+    SDL_DestroyTexture(textTexture2); // Libération des textures
+
+    TTF_CloseFont(font);
+
+    present();
+}
+
 
 void DisplayManager::setOneCase(Box boxObject)
 {
@@ -193,6 +338,7 @@ void DisplayManager::removeOneCase(Box boxObject)
     std::cout << "Setting case at (" << positions[0] << ", " << positions[1] << ") with value " << 0 << std::endl;
     SDL_Rect& rect = rectangles[positions[0]][positions[1]];
 
+    SDL_SetRenderDrawColor(renderer, 245, 245, 220, 255);
     SDL_RenderFillRect(renderer, &rect);
 
     std::cout << "Mettre a jour le rendu:" << std::endl;

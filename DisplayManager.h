@@ -9,7 +9,7 @@ class DisplayManager
 {
 public:
     DisplayManager();
-    DisplayManager(const char* title, int width, int height, int boardSize);
+    DisplayManager(const char* title, int width, int height, int boardSize, int score, int totalScore);
     ~DisplayManager();
 
 
@@ -19,12 +19,21 @@ public:
     void clear();
     void present();
 
+    int getWidth();
+    int getHeight();
+    int getBoardSize();
+
     void initializeBoard();
 
     void setOneCase(Box boxObject);
     void removeOneCase(Box boxObject);
 
     SDL_Renderer* getRenderer();
+
+    void displayText(int textSize, int width, int height, int boardSize, int score, int totalScore);
+    void eraseText(int textSize, int width, int height, int boardSize);
+    void displayLoseText(int textSize, int width, int height, int boardSize, int score, int totalScore);
+    void displayWinText(int textSize, int width, int height, int boardSize, int score, int totalScore);
 
 private:
     SDL_Window* window;

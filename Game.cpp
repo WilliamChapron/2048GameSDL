@@ -10,12 +10,12 @@
 // Constructor -------------
 
 
-Game::Game() : size_i(4) 
+Game::Game() : size_i(8) 
 {
     initializeBoardBoxs();
 }
 
-Game::Game(int boardSize) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayManagerInstance("2048", 1920, 1080, 4) 
+Game::Game(int boardSize) : size_i(boardSize), score_i(2), totalScore_i(2), DisplayManagerInstance("2048", 1540, 805, boardSize, score_i, totalScore_i)
 {
     initializeGame();
     std::cout << "Game Start" << std::endl;
@@ -39,8 +39,10 @@ void Game::initializeBoardBoxs()
 
 
 
-    for (int i = 0; i < rows; ++i) {
-        for (int j = 0; j < cols; ++j) {
+    for (int i = 0; i < rows; ++i) 
+    {
+        for (int j = 0; j < cols; ++j) 
+        {
             createBox(i, j, 0); // Initialize each box with a value 0 
             //Box currentBox = boardBoxs[i][j];
             //int boxValue = currentBox.getValue();
@@ -107,11 +109,98 @@ bool Game::checkBoardFull()
             {
                 full = false;
             }
+            if (checkNeighboor(i, j))
+            {
+                full = false;
+            }
         }
     }
     // if full true check if double still possible
     return full;
 }
+
+
+//Check if the user can still DOUBLE somme boxes
+bool Game::checkNeighboor(int i, int j)
+{
+    bool neighboor = false;
+
+    if (i == 0)
+    {
+        if (j == 0)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else if (j == size_i-1)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+    }
+    else if (i == size_i-1)
+    {
+        if (j == 0)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else if (j == size_i-1)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
+            {
+                neighboor = true;
+            }
+        }
+    }
+    else
+    {
+        if (j == 0)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else if (j == size_i-1)
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue())
+            {
+                neighboor = true;
+            }
+        }
+        else
+        {
+            if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j + 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue())
+            {
+                neighboor = true;
+            }
+        }
+    }
+    return neighboor;
+}
+
+
 
 // Check all ends
 bool Game::checkEnd()
@@ -389,8 +478,6 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                 moveStateMessage_s += "no box collision/";
 
 
-
-                
 
             }
             else

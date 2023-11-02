@@ -1,5 +1,4 @@
-﻿#ifndef GAME_H
-#define GAME_H
+﻿#pragma once
 
 #include "Box.h"
 #include "DisplayManager.h"
@@ -27,6 +26,8 @@ public:
     Game();
     Game(int boardSize);
 
+    DisplayManager DisplayManagerInstance;
+
     // Get 
     int getSize();
     int getScore();
@@ -52,6 +53,12 @@ public:
     void spawnRandomBox();
     void createBox(int i, int j, int value);
 
+
+    // EndCheck
+
+    bool checkBoardFull();
+    bool checkNeighboor(int i, int j);
+    bool check2048Win();
     bool checkEnd();
 
     // Check 
@@ -72,9 +79,6 @@ private:
     std::vector<std::vector<int>> boardNumbers;
     std::vector<std::vector<Box>> boardBoxs;
 
-    // Check 
-
-    DisplayManager DisplayManagerInstance;
 
     //Tool
 
@@ -82,10 +86,6 @@ private:
     void setTotalScore(int val);
     void actualizeMaxScore(int i, int j);
 
-    // EndCheck
-
-    bool checkBoardFull();
-    bool check2048Win();
 
 
     void initializeBoard();
@@ -97,5 +97,3 @@ private:
 
     bool checkBoxAnimationDelay(Box& boxObject, Uint32 currentTime);
 };
-
-#endif // GAME_H
