@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <string>
 #include <vector>
+#include "Box.h"
 
 class DisplayManager 
 {
@@ -20,8 +21,8 @@ public:
 
     void initializeBoard();
 
-    void setOneCase(int indexI, int indexJ, int value);
-    void removeOneCase(int indexI, int indexJ);
+    void setOneCase(Box boxObject);
+    void removeOneCase(Box boxObject);
 
     SDL_Renderer* getRenderer();
 

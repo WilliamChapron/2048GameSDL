@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <SDL.h>
 
 class GameObject 
 {
@@ -10,15 +11,20 @@ public:
     //GameObject(); // Base construct
     GameObject(int positionX, int positionY, std::string imagePath); // Create a triangle
     void Update(int i, int j, int value);
-    //void setImagePath(int value);
-    //void setPositions(int i, int j);
+
+    int delayTime;
+
+    Uint32 getLastExecutionTime();
+
+    void setLastExecutionTime(Uint32 time);
     
 
 private:
-    //// Position Board
-    //int positionI_i; 
-    //int positionJ_i;
 
+    // Time Synchro Anim
+
+    
+    Uint32 lastExecutionTime;
 
     // Position Display
     int positionX_i;

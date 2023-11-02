@@ -112,57 +112,57 @@ void DisplayManager::initializeBoard()
     present();
 }
 
-void DisplayManager::displayText(int width, int height)
+//void DisplayManager::displayText(int width, int height)
+//{
+//	// std::string text = "My score :";
+//    // int x = space_i + boardSize * (space_i + cellSize_i) + width/50;
+//    // int y = height / 2;
+//
+//	// for (char c : text) 
+//    // {
+//	// 	// Charger la texture du caractère c
+//	// 	SDL_Texture* charTexture = loadCharTexture(c); 
+//
+//	// 	// Afficher la texture du caractère
+//	// 	SDL_Rect charRect = { x, y, 10, 10 };
+//	// 	SDL_RenderCopy(renderer, charTexture, nullptr, &charRect);
+//
+//	// 	// Déplacez x pour le caractère suivant
+//	// 	x += 12; 
+//	// }
+//
+//	TTF_Font* font = TTF_OpenFont("path_to_your_font_file.ttf", 12); 
+//	if (!font)
+//	{
+//		std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
+//		return;
+//	}
+//
+//	int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+//	int y = height / 2;
+//	std::string text = "My Score : TEST"
+//
+//	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+//	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+//
+//	SDL_Rect textRect = { x, y, textSurface->w, textSurface->h };
+//	SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+//
+//	SDL_FreeSurface(textSurface);
+//	SDL_DestroyTexture(textTexture);
+//	TTF_CloseFont(font);
+//}
+
+void DisplayManager::setOneCase(Box boxObject)
 {
-	// std::string text = "My score :";
-    // int x = space_i + boardSize * (space_i + cellSize_i) + width/50;
-    // int y = height / 2;
 
-	// for (char c : text) 
-    // {
-	// 	// Charger la texture du caractère c
-	// 	SDL_Texture* charTexture = loadCharTexture(c); 
-
-	// 	// Afficher la texture du caractère
-	// 	SDL_Rect charRect = { x, y, 10, 10 };
-	// 	SDL_RenderCopy(renderer, charTexture, nullptr, &charRect);
-
-	// 	// Déplacez x pour le caractère suivant
-	// 	x += 12; 
-	// }
-
-	TTF_Font* font = TTF_OpenFont("path_to_your_font_file.ttf", 12); 
-	if (!font)
-	{
-		std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
-		return;
-	}
-
-	int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
-	int y = height / 2;
-	std::string text = "My Score : TEST"
-
-	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
-	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-	SDL_Rect textRect = { x, y, textSurface->w, textSurface->h };
-	SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
-
-	SDL_FreeSurface(textSurface);
-	SDL_DestroyTexture(textTexture);
-	TTF_CloseFont(font);
-}
-
-void DisplayManager::setOneCase(int indexI, int indexJ, int value)
-{
-    //SDL_Delay(200);
-    // Wait here
+    std::vector<int> positions = boxObject.getPosition();
+    int value = boxObject.getValue();
 
     std::string imagePath = getImagePath(value);
 
-    std::cout << "Setting case at (" << indexI << ", " << indexJ << ") with value " << value << std::endl;
+    std::cout << "Setting case at (" << positions[0] << ", " << positions[1] << ") with value " << value << std::endl;
     
-    /*std::vector<int> positions = getPositions(indexI, indexJ);*/
 
     // Charger une image avec SDL_image
     std::cout << imagePath << std::endl;
@@ -175,7 +175,7 @@ void DisplayManager::setOneCase(int indexI, int indexJ, int value)
         SDL_FreeSurface(imageSurface);
 
         // Copier la texture sur le rendu avec rect (object)
-        SDL_Rect& rect = rectangles[indexI][indexJ];
+        SDL_Rect& rect = rectangles[positions[0]][positions[1]];
         SDL_RenderCopy(renderer, imageTexture, NULL, &rect);
 
         // Mettre à jour le rendu
@@ -186,11 +186,12 @@ void DisplayManager::setOneCase(int indexI, int indexJ, int value)
 
 
 
-void DisplayManager::removeOneCase(int indexI, int indexJ) 
+void DisplayManager::removeOneCase(Box boxObject)
 {
-    //SDL_Delay(200);
-    std::cout << "Setting case at (" << indexI << ", " << indexJ << ") with value " << 0 << std::endl;
-    SDL_Rect& rect = rectangles[indexI][indexJ];
+    std::vector<int> positions = boxObject.getPosition();
+
+    std::cout << "Setting case at (" << positions[0] << ", " << positions[1] << ") with value " << 0 << std::endl;
+    SDL_Rect& rect = rectangles[positions[0]][positions[1]];
 
     SDL_RenderFillRect(renderer, &rect);
 

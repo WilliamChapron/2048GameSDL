@@ -92,6 +92,10 @@ private:
 
     // Move Direction Storage System
     MoveResult eventMoves(int moveEvent);
+
+    // Delay animation system 
+
+    bool checkBoxAnimationDelay(Box& boxObject, Uint32 currentTime);
 };
 
 #endif // GAME_H

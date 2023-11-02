@@ -61,7 +61,7 @@ void Game::initializeBoard()
         createBox(randomI, randomJ, 1);
         setBoardNumbers(randomI, randomJ, 1);
 
-        DisplayManagerInstance.setOneCase(randomI, randomJ, 2);
+        DisplayManagerInstance.setOneCase(boardBoxs[randomI][randomJ]);
     }
 }
 
@@ -164,7 +164,7 @@ void Game::spawnRandomBox()
 
         createBox(randomI, randomJ, 2);
         setBoardNumbers(randomI, randomJ, 1);
-        DisplayManagerInstance.setOneCase(randomI, randomJ, boardBoxs[randomI][randomJ].getValue());
+        DisplayManagerInstance.setOneCase(boardBoxs[randomI][randomJ]);
     }
 }
 
@@ -306,7 +306,7 @@ void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBox
     boardNumbers[nextBoxI][nextBoxJ] = 1; // Facultatif
 
     // Set one case FOR display refresh
-    DisplayManagerInstance.removeOneCase(nextBoxI, nextBoxJ);
+    DisplayManagerInstance.removeOneCase(boardBoxs[nextBoxI][nextBoxJ]);
     DisplayManagerInstance.setOneCase(boardBoxs[nextBoxI][nextBoxJ]);
     // Set one case FOR display refresh
     DisplayManagerInstance.removeOneCase(boardBoxs[currentBoxI][currentBoxJ]);
@@ -318,11 +318,41 @@ void Game::setTotalScore(int val)
 }
 
 
+
+
+
+
+// Check Box anim delay
+
+bool Game::checkBoxAnimationDelay(Box& boxObject, Uint32 currentTime)
+{
+    Uint32 lastExecutionTime = boxObject.getLastExecutionTime();
+    Uint32 delayTime = boxObject.delayTime;
+
+    std::cout << currentTime - lastExecutionTime << ">=?" << delayTime << std::endl;
+
+    if (currentTime - lastExecutionTime >= delayTime)
+    {
+        boxObject.setLastExecutionTime(currentTime);
+        return true;
+    }
+
+    return false;
+}
+
+
+
+
+
+
 // Check Bool ------------------------
 
 
 void Game::checkEvents(int i, int j, int iUser, int jUser)
 {
+
+   
+
 
     if (checkBoxExist(i, j))
     {
@@ -330,25 +360,37 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
         {
             if (not checkBoxCollide(i, j, iUser, jUser))
             {
+                // Time anim synchro
+
+                Uint32 currentTime = SDL_GetTicks();
+
+
                 // Set future position
                 boardBoxs[i + iUser][j + jUser].setValue(boardBoxs[i][j].getValue());
                 boardNumbers[i + iUser][j + jUser] = 1;
 
-                
+
 
                 // Set old position
                 boardBoxs[i][j].setValue(0);
                 setBoardNumbers(i, j, 0);
-                
+
                 // Set one case FOR display refresh
-                DisplayManagerInstance.removeOneCase(i + iUser, j + jUser);
+                DisplayManagerInstance.removeOneCase(boardBoxs[i + iUser][j + jUser]);
                 DisplayManagerInstance.setOneCase(boardBoxs[i + iUser][j + jUser]);
                 DisplayManagerInstance.removeOneCase(boardBoxs[i][j]);
 
 
                 moveState_i = 1;
                 checkEvents(i + iUser, j + jUser, iUser, jUser);
+
+                // checkBoxAnimationDelay attend mais il ne retente pas d'executer si l'execution n'a pas éé possible en raison du delay, car la boucle parcourt les box mais ne retente pas si les delay ne sont pas fini, il faudrait stocker dans un tableau les Box non move du fait du delay et cela empecherait de moove tant que l'anim n'est pas fini 
+                
                 moveStateMessage_s += "no box collision/";
+
+
+
+                
 
             }
             else
@@ -360,10 +402,6 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                     moveState_i = 1;
                     //std::cout << "double !!!" << std::endl;
                     doubleBox(i, j, i + iUser, j + jUser);
-
-
-
-
                     setTotalScore(boardBoxs[i + iUser][j + jUser].getValue());
                     actualizeMaxScore(i + iUser, j + jUser);
                     moveStateMessage_s += "box collision and fusion/";
