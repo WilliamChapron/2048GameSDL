@@ -32,14 +32,15 @@ int Player::catchKeys(SDL_Event& e) {
     if (e.type == SDL_KEYDOWN) {
         // Si une touche est enfoncée
         switch (e.key.keysym.sym) {
-        case SDLK_LEFT:
-            return 1;
-        case SDLK_RIGHT:
-            return 2;
         case SDLK_UP:
-            return 3;
+            return 1;
         case SDLK_DOWN:
+            return 2;
+        case SDLK_LEFT:
+            return 3;
+        case SDLK_RIGHT:
             return 4;
+
         default:
             return 0;
         }

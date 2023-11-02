@@ -302,15 +302,17 @@ void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBox
     boardBoxs[currentBoxI][currentBoxJ].setValue(0);
     boardNumbers[currentBoxI][currentBoxJ] = 0;
 
-    // Set one case FOR display refresh
-    DisplayManagerInstance.removeOneCase(currentBoxI, currentBoxJ);
+
     
 
     boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 2);
     boardNumbers[nextBoxI][nextBoxJ] = 1; // Facultatif
 
     // Set one case FOR display refresh
+    DisplayManagerInstance.removeOneCase(nextBoxI, nextBoxJ);
     DisplayManagerInstance.setOneCase(nextBoxI, nextBoxJ, boardBoxs[nextBoxI][nextBoxJ].getValue());
+    // Set one case FOR display refresh
+    DisplayManagerInstance.removeOneCase(currentBoxI, currentBoxJ);
 
 
 
@@ -349,8 +351,9 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                 /*boardBoxs[i][j].Update(i, j, 0);*/
                 
                 // Set one case FOR display refresh
-                DisplayManagerInstance.removeOneCase(i, j);
+                DisplayManagerInstance.removeOneCase(i + iUser, j + jUser);
                 DisplayManagerInstance.setOneCase(i + iUser, j + jUser, boardBoxs[i + iUser][j + jUser].getValue());
+                DisplayManagerInstance.removeOneCase(i, j);
 
 
                 moveState_i = 1;
