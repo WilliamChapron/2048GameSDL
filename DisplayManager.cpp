@@ -5,10 +5,12 @@
 #include <vector>
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <SDL_image.h>
 
 
-DisplayManager::DisplayManager() {
+DisplayManager::DisplayManager() 
+{
 
 }
 
@@ -68,13 +70,15 @@ SDL_Renderer* DisplayManager::getRenderer()
     return renderer;
 }
 
-void DisplayManager::clear() {
+void DisplayManager::clear() 
+{
     // Effacer le rendu en noir
     SDL_SetRenderDrawColor(renderer, 200, 200, 175, 255);
     SDL_RenderClear(renderer);
 }
 
-void DisplayManager::present() {
+void DisplayManager::present() 
+{
     // Mettre à jour le rendu
     SDL_RenderPresent(renderer);
 }
@@ -106,6 +110,47 @@ void DisplayManager::initializeBoard()
 
     // Mettre à jour le rendu
     present();
+}
+
+void DisplayManager::displayText(int width, int height)
+{
+	// std::string text = "My score :";
+    // int x = space_i + boardSize * (space_i + cellSize_i) + width/50;
+    // int y = height / 2;
+
+	// for (char c : text) 
+    // {
+	// 	// Charger la texture du caractère c
+	// 	SDL_Texture* charTexture = loadCharTexture(c); 
+
+	// 	// Afficher la texture du caractère
+	// 	SDL_Rect charRect = { x, y, 10, 10 };
+	// 	SDL_RenderCopy(renderer, charTexture, nullptr, &charRect);
+
+	// 	// Déplacez x pour le caractère suivant
+	// 	x += 12; 
+	// }
+
+	TTF_Font* font = TTF_OpenFont("path_to_your_font_file.ttf", 12); 
+	if (!font)
+	{
+		std::cerr << "Impossible de charger la police : " << TTF_GetError() << std::endl;
+		return;
+	}
+
+	int x = space_i + boardSize * (space_i + cellSize_i) + width / 50;
+	int y = height / 2;
+	std::string text = "My Score : TEST"
+
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+	SDL_Rect textRect = { x, y, textSurface->w, textSurface->h };
+	SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+
+	SDL_FreeSurface(textSurface);
+	SDL_DestroyTexture(textTexture);
+	TTF_CloseFont(font);
 }
 
 void DisplayManager::setOneCase(int indexI, int indexJ, int value)
@@ -141,7 +186,8 @@ void DisplayManager::setOneCase(int indexI, int indexJ, int value)
 
 
 
-void DisplayManager::removeOneCase(int indexI, int indexJ) {
+void DisplayManager::removeOneCase(int indexI, int indexJ) 
+{
     //SDL_Delay(200);
     std::cout << "Setting case at (" << indexI << ", " << indexJ << ") with value " << 0 << std::endl;
     SDL_Rect& rect = rectangles[indexI][indexJ];
@@ -155,7 +201,6 @@ void DisplayManager::removeOneCase(int indexI, int indexJ) {
 
 std::vector<int> DisplayManager::getPositions(int i, int j)
 {
-
     int posX = space_i + (i * (cellSize_i + space_i));
     int posY = space_i + (j * (cellSize_i + space_i));
 
@@ -164,7 +209,8 @@ std::vector<int> DisplayManager::getPositions(int i, int j)
 
 std::string DisplayManager::getImagePath(int value)
 {
-    switch (value) {
+    switch (value) 
+    {
     case 0:
         return "";
     case 2:

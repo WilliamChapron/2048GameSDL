@@ -10,11 +10,13 @@
 // Constructor -------------
 
 
-Game::Game() : size_i(4) {
+Game::Game() : size_i(4) 
+{
     initializeBoardBoxs();
 }
 
-Game::Game(int boardSize) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayManagerInstance("2048", 800, 800, 4) {
+Game::Game(int boardSize) : size_i(boardSize), score_i(0), totalScore_i(0), DisplayManagerInstance("2048", 1920, 1080, 4) 
+{
     initializeGame();
     std::cout << "Game Start" << std::endl;
 }
@@ -40,7 +42,6 @@ void Game::initializeBoardBoxs()
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
             createBox(i, j, 0); // Initialize each box with a value 0 
-            boardBoxs[i][j].Update(i, j, 0);
             //Box currentBox = boardBoxs[i][j];
             //int boxValue = currentBox.getValue();
         }
@@ -62,7 +63,6 @@ void Game::initializeBoard()
 
         DisplayManagerInstance.setOneCase(randomI, randomJ, 2);
     }
-
 }
 
 void Game::createBox(int i, int j, int value)
@@ -136,7 +136,6 @@ bool Game::checkEnd()
 
 
 
-
 // Tools--------------------------
 
 
@@ -165,6 +164,7 @@ void Game::spawnRandomBox()
 
         createBox(randomI, randomJ, 2);
         setBoardNumbers(randomI, randomJ, 1);
+        DisplayManagerInstance.setOneCase(randomI, randomJ, boardBoxs[randomI][randomJ].getValue());
     }
 }
 
@@ -238,7 +238,8 @@ std::string Game::getMessage()
 
 // Set ----------------------------
 
-void Game::setBoardNumbers(int i, int j, int value) {
+void Game::setBoardNumbers(int i, int j, int value) 
+{
     boardNumbers[i][j] = value;
 }
 
@@ -298,24 +299,17 @@ void Game::DownRightCase(int moveEvent)
 
 void Game::doubleBox(int currentBoxI, int currentBoxJ, int nextBoxI, int nextBoxJ)
 {
-
     boardBoxs[currentBoxI][currentBoxJ].setValue(0);
     boardNumbers[currentBoxI][currentBoxJ] = 0;
-
-
-    
 
     boardBoxs[nextBoxI][nextBoxJ].setValue(boardBoxs[nextBoxI][nextBoxJ].getValue() * 2);
     boardNumbers[nextBoxI][nextBoxJ] = 1; // Facultatif
 
     // Set one case FOR display refresh
     DisplayManagerInstance.removeOneCase(nextBoxI, nextBoxJ);
-    DisplayManagerInstance.setOneCase(nextBoxI, nextBoxJ, boardBoxs[nextBoxI][nextBoxJ].getValue());
+    DisplayManagerInstance.setOneCase(boardBoxs[nextBoxI][nextBoxJ]);
     // Set one case FOR display refresh
-    DisplayManagerInstance.removeOneCase(currentBoxI, currentBoxJ);
-
-
-
+    DisplayManagerInstance.removeOneCase(boardBoxs[currentBoxI][currentBoxJ]);
 }
 
 void Game::setTotalScore(int val)
@@ -339,21 +333,17 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                 // Set future position
                 boardBoxs[i + iUser][j + jUser].setValue(boardBoxs[i][j].getValue());
                 boardNumbers[i + iUser][j + jUser] = 1;
-                // Update Image path 
-                boardBoxs[i + iUser][j + jUser].Update(i + iUser, j + jUser, 0);
 
                 
 
                 // Set old position
                 boardBoxs[i][j].setValue(0);
                 setBoardNumbers(i, j, 0);
-                // Update Image path 
-                /*boardBoxs[i][j].Update(i, j, 0);*/
                 
                 // Set one case FOR display refresh
                 DisplayManagerInstance.removeOneCase(i + iUser, j + jUser);
-                DisplayManagerInstance.setOneCase(i + iUser, j + jUser, boardBoxs[i + iUser][j + jUser].getValue());
-                DisplayManagerInstance.removeOneCase(i, j);
+                DisplayManagerInstance.setOneCase(boardBoxs[i + iUser][j + jUser]);
+                DisplayManagerInstance.removeOneCase(boardBoxs[i][j]);
 
 
                 moveState_i = 1;

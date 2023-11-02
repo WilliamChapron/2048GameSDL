@@ -45,6 +45,7 @@
   <ItemGroup>
     <None Include="SDL2_image.dll" />
     <None Include="SDL2.dll" />
+    <None Include="SDL2_ttf.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SDL2\include\begin_code.h">
