@@ -120,7 +120,7 @@ bool Game::checkBoardFull()
 }
 
 
-//Check if the user can still DOUBLE somme boxes
+//Check if the user can still DOUBLE some boxes even with board full
 bool Game::checkNeighboor(int i, int j)
 {
     bool neighboor = false;

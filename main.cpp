@@ -79,16 +79,10 @@ int main(int argc, char* argv[])
 {
     Game GameInstance(4);
   
-    
-
     bool quit = false;
     SDL_Event e;
     Player PlayerInstance;
     
-
-    //std::vector<std::vector<int>>& boardNumbers_r = GameInstance.getBoardNumbers(); //grid that shows the existence of boxes (1 or 0)
-    //std::vector<std::vector<Box>>& boardBoxs_r = GameInstance.getBoardBoxs();
-    // Display here fist board
 
     while (!quit) 
     {
