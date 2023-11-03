@@ -10,7 +10,7 @@
 // Constructor -------------
 
 
-Game::Game() : size_i(8) 
+Game::Game() : size_i(8)
 {
     initializeBoardBoxs();
 }
@@ -39,9 +39,9 @@ void Game::initializeBoardBoxs()
 
 
 
-    for (int i = 0; i < rows; ++i) 
+    for (int i = 0; i < rows; ++i)
     {
-        for (int j = 0; j < cols; ++j) 
+        for (int j = 0; j < cols; ++j)
         {
             createBox(i, j, 0); // Initialize each box with a value 0 
             //Box currentBox = boardBoxs[i][j];
@@ -134,7 +134,7 @@ bool Game::checkNeighboor(int i, int j)
                 neighboor = true;
             }
         }
-        else if (j == size_i-1)
+        else if (j == size_i - 1)
         {
             if (boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
             {
@@ -149,7 +149,7 @@ bool Game::checkNeighboor(int i, int j)
             }
         }
     }
-    else if (i == size_i-1)
+    else if (i == size_i - 1)
     {
         if (j == 0)
         {
@@ -158,7 +158,7 @@ bool Game::checkNeighboor(int i, int j)
                 neighboor = true;
             }
         }
-        else if (j == size_i-1)
+        else if (j == size_i - 1)
         {
             if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue())
             {
@@ -182,7 +182,7 @@ bool Game::checkNeighboor(int i, int j)
                 neighboor = true;
             }
         }
-        else if (j == size_i-1)
+        else if (j == size_i - 1)
         {
             if (boardBoxs[i][j].getValue() == boardBoxs[i - 1][j].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i][j - 1].getValue() or boardBoxs[i][j].getValue() == boardBoxs[i + 1][j].getValue())
             {
@@ -327,7 +327,7 @@ std::string Game::getMessage()
 
 // Set ----------------------------
 
-void Game::setBoardNumbers(int i, int j, int value) 
+void Game::setBoardNumbers(int i, int j, int value)
 {
     boardNumbers[i][j] = value;
 }
@@ -440,7 +440,7 @@ bool Game::checkBoxAnimationDelay(Box& boxObject, Uint32 currentTime)
 void Game::checkEvents(int i, int j, int iUser, int jUser)
 {
 
-   
+
 
 
     if (checkBoxExist(i, j))
@@ -474,7 +474,7 @@ void Game::checkEvents(int i, int j, int iUser, int jUser)
                 checkEvents(i + iUser, j + jUser, iUser, jUser);
 
                 // checkBoxAnimationDelay attend mais il ne retente pas d'executer si l'execution n'a pas éé possible en raison du delay, car la boucle parcourt les box mais ne retente pas si les delay ne sont pas fini, il faudrait stocker dans un tableau les Box non move du fait du delay et cela empecherait de moove tant que l'anim n'est pas fini 
-                
+
                 moveStateMessage_s += "no box collision/";
 
 
@@ -558,3 +558,185 @@ bool Game::checkIsDouble(int i, int j, int iUser, int jUser)
 }
 
 
+
+
+// TRY ON ANIMATION SYSTEM 
+
+// Game Logic ---------------------
+
+
+//// Check if waitAnimBoxs is empty box
+//bool Game::hasNonEmptyStrings(const std::vector<std::string>& strings) {
+//    for (const std::string& str : strings) {
+//        if (str != "") {
+//            return true; 
+//        }
+//    }
+//    return false; 
+//}
+
+
+//void Game::move(int moveEvent)
+//{
+//    moveState_i = 0;
+//
+//    waitAnimBoxs.clear();
+//    waitAnimBoxs.resize(size_i*size_i, "");
+//
+//    if (moveEvent == 1 || moveEvent == 3)
+//    {
+//        UpLeftCase(moveEvent);
+//    }
+//    else if (moveEvent == 2 || moveEvent == 4)
+//    {
+//        DownRightCase(moveEvent);
+//    }
+//
+//    
+//
+//    if (hasNonEmptyStrings(waitAnimBoxs)) {
+//        // Recursive move animation force
+//        forceMoveAnimation();
+//    }
+//
+//
+//    if (moveState_i == 1)
+//    {
+//        spawnRandomBox();
+//    }
+//}
+
+//void Game::forceMoveAnimation() {
+//    for (int i = 0; i < waitAnimBoxs.size(); ++i) {
+//        std::string positions = waitAnimBoxs[i]; 
+//        Uint32 currentTime = SDL_GetTicks();
+//        if (checkBoxAnimationDelay(positions[0], positions[2], currentTime)) {
+//
+//            waitAnimBoxs[i] = "";
+//            
+//
+//
+//            // Set future position
+//            boardBoxs[positions[0]][positions[2]].setValue(boardBoxs[positions[0]][positions[2]].getValue());
+//            boardNumbers[positions[0]][positions[2]] = 1;
+//
+//
+//
+//
+//
+//            // Set one case FOR display refresh
+//            DisplayManagerInstance.removeOneCase(boardBoxs[positions[0]][positions[2]]);
+//            DisplayManagerInstance.setOneCase(boardBoxs[positions[0]][positions[2]]);
+//
+//
+//            moveState_i = 1;
+//            checkEvents(i + iUser, j + jUser, iUser, jUser);
+//
+//            
+//
+//            moveStateMessage_s += "no box collision/";
+//
+//        }
+//    }
+//    if (hasNonEmptyStrings(waitAnimBoxs)) {
+//        forceMoveAnimation();
+//    }
+//}
+
+
+
+// Check Box anim delay
+
+//bool Game::checkBoxAnimationDelay(int i, int j, Uint32 currentTime)
+//{
+//    Uint32 lastExecutionTime = boardBoxs[i][j].getLastExecutionTime();
+//    Uint32 delayTime = boardBoxs[i][j].delayTime;
+//
+//    std::cout << currentTime - lastExecutionTime << ">=?" << delayTime << std::endl;
+//
+//    if (currentTime - lastExecutionTime >= delayTime)
+//    {
+//        boardBoxs[i][j].setLastExecutionTime(currentTime);
+//        return true;
+//    }
+//
+//    return false;
+//}
+//
+//
+
+
+
+
+// Check Bool ------------------------
+
+
+//void Game::checkEvents(int i, int j, int iUser, int jUser)
+//{
+//
+//   
+//
+//
+//    if (checkBoxExist(i, j))
+//    {
+//        if (not checkBorderCollide(i, j, iUser, jUser))
+//        {
+//            if (not checkBoxCollide(i, j, iUser, jUser))
+//            {
+//                // Time anim synchro
+//
+//                Uint32 currentTime = SDL_GetTicks();
+//
+//                if (checkBoxAnimationDelay(i, j, currentTime)) {
+//                    // Set future position
+//                    boardBoxs[i + iUser][j + jUser].setValue(boardBoxs[i][j].getValue());
+//                    boardNumbers[i + iUser][j + jUser] = 1;
+//
+//
+//
+//                    // Set old position
+//                    boardBoxs[i][j].setValue(0);
+//                    setBoardNumbers(i, j, 0);
+//
+//                    // Set one case FOR display refresh
+//                    DisplayManagerInstance.removeOneCase(boardBoxs[i + iUser][j + jUser]);
+//                    DisplayManagerInstance.setOneCase(boardBoxs[i + iUser][j + jUser]);
+//                    DisplayManagerInstance.removeOneCase(boardBoxs[i][j]);
+//
+//
+//                    moveState_i = 1;
+//                    checkEvents(i + iUser, j + jUser, iUser, jUser);
+//
+//                    // checkBoxAnimationDelay attend mais il ne retente pas d'executer si l'execution n'a pas éé possible en raison du delay, car la boucle parcourt les box mais ne retente pas si les delay ne sont pas fini, il faudrait stocker dans un tableau les Box non move du fait du delay et cela empecherait de moove tant que l'anim n'est pas fini 
+//
+//                    moveStateMessage_s += "no box collision/";
+//                }
+//                else {
+//                    std::string pushPosition = std::to_string(i + iUser) + '+' + std::to_string(j + jUser);
+//                    waitAnimBoxs.push_back(pushPosition);
+//                }
+//
+//
+//            }
+//            else
+//            {
+//                moveStateMessage_s += "box collision and no fusion/";
+//                //std::cout << "box collide" << std::endl;
+//                if (checkIsDouble(i, j, iUser, jUser))
+//                {
+//                    moveState_i = 1;
+//                    //std::cout << "double !!!" << std::endl;
+//                    doubleBox(i, j, i + iUser, j + jUser);
+//                    setTotalScore(boardBoxs[i + iUser][j + jUser].getValue());
+//                    actualizeMaxScore(i + iUser, j + jUser);
+//                    moveStateMessage_s += "box collision and fusion/";
+//
+//                }
+//            }
+//        }
+//        else
+//        {
+//            moveStateMessage_s += "border collision/";
+//        }
+//    }
+//}
